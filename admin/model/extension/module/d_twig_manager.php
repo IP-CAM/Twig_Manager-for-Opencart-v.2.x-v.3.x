@@ -77,17 +77,29 @@ class ModelExtensionModuleDTwigManager extends Model {
     }
 
     public function isCompatible(){
-
+        $d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
         $d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
-        if(!$d_opencart_patch){
+        if(!$d_opencart_patch || !$d_event_manager){
             return false;
         }
 
         $this->load->model('extension/d_opencart_patch/modification');
-
-        $compatibility = $this->model_extension_d_opencart_patch_modification->getModificationByName('d_twig_manager');
-        if($compatibility){
-            if(!empty($compatibility['status'])){
+        $this->load->model('extension/module/d_event_manager');
+        $events = $this->model_extension_module_d_event_manager->getEvents(array(
+            'filter_code' => 'd_twig_manager_event'
+        ));
+        $modification = $this->model_extension_d_opencart_patch_modification->getModificationByName('d_twig_manager');
+        
+        if($modification){
+            if(empty($modification['status'])){
+                return false;
+            }
+            if ($events && is_array($events) && count($events) == 2) {
+                foreach($events as $event) {
+                    if (empty($event['status'])) {
+                        return false;
+                    }
+                }
                 return true;
             }
         }
@@ -99,12 +111,18 @@ class ModelExtensionModuleDTwigManager extends Model {
     public function installCompatibility(){
 
         $d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
-        if(!$d_opencart_patch){
+        $d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
+        if(!$d_opencart_patch || !$d_event_manager){
             return false;
         }
 
         if(!$this->isCompatible()){
             $this->load->model('extension/d_opencart_patch/modification');
+            $this->load->model('extension/module/d_event_manager');
+
+            $this->model_extension_module_d_event_manager->deleteEvent('d_twig_manager_event');
+            $this->model_extension_module_d_event_manager->addEvent('d_twig_manager_event', 'admin/view/*/before', 'extension/event/d_twig_manager', 1, 0);
+            $this->model_extension_module_d_event_manager->addEvent('d_twig_manager_event', 'catalog/view/*/before', 'extension/event/d_twig_manager', 1, 0);
 
             $this->model_extension_d_opencart_patch_modification->setModification('d_twig_manager.xml', 0);
             $this->model_extension_d_opencart_patch_modification->setModification('d_twig_manager.xml', 1);
@@ -123,11 +141,16 @@ class ModelExtensionModuleDTwigManager extends Model {
     public function uninstallCompatibility(){
 
         $d_opencart_patch = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_opencart_patch.json'));
-        if(!$d_opencart_patch){
+        $d_event_manager = (file_exists(DIR_SYSTEM.'library/d_shopunity/extension/d_event_manager.json'));
+        if(!$d_opencart_patch || !$d_event_manager){
             return false;
         }
 
         $this->load->model('extension/d_opencart_patch/modification');
+
+        $this->load->model('extension/module/d_event_manager');
+
+        $this->model_extension_module_d_event_manager->deleteEvent('d_twig_manager_event');
         $this->model_extension_d_opencart_patch_modification->setModification('d_twig_manager.xml', 0);
         $this->model_extension_d_opencart_patch_modification->refreshCache();
 
@@ -158,4 +181,3 @@ class ModelExtensionModuleDTwigManager extends Model {
         }
     }
 }
-?>

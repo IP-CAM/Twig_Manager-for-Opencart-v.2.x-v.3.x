@@ -1,6 +1,6 @@
 {
     "codename": "d_twig_manager",
-    "version": "2.1.0",
+    "version": "2.1.5",
     "name": "Twig Manager",
     "description": "Add twig support to you opencart",
     "author": {
@@ -25,15 +25,38 @@
         "url": "https:/dreamvention.com/support"
     },
     "required": {
-        "d_opencart_patch": ">=3.0.0"
+        "d_opencart_patch": ">=3.0.0",
+        "d_event_manager": ">=2.1.3"
     },
     "files": [
         "system/library/d_shopunity/extension/d_twig_manager.json",
         "system/library/d_shopunity/install/d_twig_manager.xml",
         "admin/model/extension/module/d_twig_manager.php",
-        "system/library/template/Twig/Extension/DTwigManager.php"
+        "system/library/template/Twig/Extension/DTwigManager.php",
+        "admin/controller/extension/event/d_twig_manager.php",
+        "catalog/controller/extension/event/d_twig_manager.php"
     ],
     "changelog": [
+        {
+            "version":"2.1.5",
+            "change": "Reduce modification using and added events"
+        },
+        {
+            "version":"2.1.4",
+            "change": "Support for opencart version less than 3.0.3.5 and latest twig version"
+        },
+        {
+            "version":"2.1.3",
+            "change": "PHP 8.2 - 8.3 support"
+        },
+        {
+            "version":"2.1.2",
+            "change": "Compatibility with Twig 3.x.x on opencart 3.0.3.9"
+        },
+        {
+            "version":"2.1.1",
+            "change": "Fix redeclare construct on opencart 3.0.3.8"
+        },
         {
             "version":"2.1.0",
             "change": "Support for opencart 3.0.3.5 and above"
