@@ -1,6 +1,6 @@
 {
     "codename": "d_twig_manager",
-    "version": "2.1.5",
+    "version": "2.1.6",
     "name": "Twig Manager",
     "description": "Add twig support to you opencart",
     "author": {
@@ -37,6 +37,10 @@
         "catalog/controller/extension/event/d_twig_manager.php"
     ],
     "changelog": [
+        {
+            "version":"2.1.6",
+            "change": "Fixed errors when using vqmod on 3.0.3.2 and less"
+        },
         {
             "version":"2.1.5",
             "change": "Reduce modification using and added events"

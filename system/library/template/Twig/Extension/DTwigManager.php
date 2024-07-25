@@ -7,11 +7,6 @@
  *
  */
 
-if (!class_exists('Twig_Extension') && !class_exists('\Twig\Extension\AbstractExtension') && is_file(DIR_SYSTEM . 'library/template/Twig/Autoloader.php')) {
-    include_once(DIR_SYSTEM . 'library/template/Twig/Autoloader.php');
-    \Twig_Autoloader::register();
-}
-
 if (class_exists('\Twig\Extension\AbstractExtension')) {
     class_alias('\Twig\Extension\AbstractExtension', 'TwigExtension');
 } else {

@@ -3,7 +3,7 @@
     <name>d_twig_manager</name>
     <code>d_twig_manager</code>
     <description>Adds support for twig templating engine</description>
-    <version>2.1.5</version>
+    <version>2.1.6</version>
     <author>Dreamvention</author>
     <link>http://dreamvention.com</link>
     <file path="system/library/template/twig.php">
@@ -14,6 +14,10 @@
             if (isset($this->data['d_twig_manager'])) {
                 $this->twig->addExtension($this->data['d_twig_manager']);
 				unset($this->data['d_twig_manager']);
+            } else if (isset($this->data['d_registry'])) {
+                $this->data['d_registry']->set('d_twig_manager_extension', new \Twig_Extension_DTwigManager($this->data['d_registry']));
+                $this->twig->addExtension($this->data['d_registry']->get('d_twig_manager_extension'));
+                unset($this->data['d_registry']);
             }
             ]]></add>
         </operation>
@@ -24,6 +28,10 @@
             if (isset($this->data['d_twig_manager'])) {
                 $this->twig->addExtension($this->data['d_twig_manager']);
 				unset($this->data['d_twig_manager']);
+            } else if (isset($this->data['d_registry'])) {
+                $this->data['d_registry']->set('d_twig_manager_extension', new \Twig_Extension_DTwigManager($this->data['d_registry']));
+                $this->twig->addExtension($this->data['d_registry']->get('d_twig_manager_extension'));
+                unset($this->data['d_registry']);
             }
             ]]></add>
         </operation>
@@ -35,6 +43,10 @@
             if (isset($this->data['d_twig_manager'])) {
                 $twig->addExtension($this->data['d_twig_manager']);
 				unset($this->data['d_twig_manager']);
+            } else if (isset($this->data['d_registry'])) {
+                $this->data['d_registry']->set('d_twig_manager_extension', new \Twig_Extension_DTwigManager($this->data['d_registry']));
+                $twig->addExtension($this->data['d_registry']->get('d_twig_manager_extension'));
+                unset($this->data['d_registry']);
             }
             ]]></add>
         </operation>
