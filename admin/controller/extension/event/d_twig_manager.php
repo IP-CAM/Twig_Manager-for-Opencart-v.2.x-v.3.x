@@ -11,7 +11,7 @@ class ControllerExtensionEventDTwigManager extends Controller
 
     public function index(&$route, &$args) {
         // most likely this is an old twig that is in the library
-        if (!class_exists('\Twig_Extension') && !class_exists('\Twig\Extension\AbstractExtension')) {
+        if (!class_exists('\Twig\Extension\AbstractExtension') && !class_exists('\Twig_Extension')) {
             $args['d_registry'] = $this->registry;
             return;
         }
